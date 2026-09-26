@@ -1,0 +1,10 @@
+[
+  {"date": "2024-02-01", "order_id": "2001", "money": 130, "province": "北京"},
+  {"date": "2024-02-02", "order_id": "2002", "money": 260, "province": "上海"},
+  {"date": "2024-02-03", "order_id": "2003", "money": 90, "province": "广州"},
+  {"date": "2024-02-04", "order_id": "2004", "money": 175, "province": "深圳"},
+  {"date": "2024-02-05", "order_id": "2005", "money": 300, "province": "杭州"},
+  {"date": "2024-02-06", "order_id": "2006", "money": 120, "province": "成都"},
+  {"date": "2024-02-07", "order_id": "2007", "money": 215, "province": "北京"},
+  {"date": "2024-02-08", "order_id": "2008", "money": 65, "province": "上海"}
+]
