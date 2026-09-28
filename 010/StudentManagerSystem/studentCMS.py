@@ -15,24 +15,6 @@ from student import Student
 VERSION = "1.0.0"
 
 
-def read_int(prompt="请输入年龄：", min_val=1, max_val=120):
-    """循环读取一个合法的整数（默认用于年龄校验，延伸练习 1）。
-
-    把"读一个整数"抽成公共函数，添加和修改时都能复用，
-    输入非数字 / 越界都会提示重输，避免 int("abc") 直接崩溃。
-    """
-    while True:
-        s = input(prompt).strip()
-        if not s.isdigit():           # 整数校验：必须由数字组成（挡掉负数/小数/字母/空串）
-            print("年龄必须是整数，请重新输入。")
-            continue
-        val = int(s)
-        if not (min_val <= val <= max_val):   # 范围校验
-            print(f"年龄需在 {min_val}~{max_val} 之间，请重新输入。")
-            continue
-        return val
-
-
 class StudentCMS:
     """学生管理系统的核心控制器。
 
@@ -52,6 +34,29 @@ class StudentCMS:
         # 同步类属性"学员总数"
         Student.count = len(self.students)
 
+    # ---------- 公共工具：读取合法整数 ----------
+
+    @staticmethod
+    def read_int(prompt="请输入年龄：", min_val=1, max_val=120, field_name="年龄"):
+        """循环读取一个合法的整数（默认用于年龄校验，延伸练习 1）。
+
+        把"读一个整数"收进类里做 @staticmethod（要求 7：不允许平铺独立函数），
+        添加和修改时都能复用，输入非数字 / 越界都会提示重输，避免 int("abc") 直接崩溃。
+
+        field_name 让提示语跟着业务字段走，而不是把"年龄"写死，
+        以后读"分数""学号"等任意数值字段都能复用。
+        """
+        while True:
+            s = input(prompt).strip()
+            if not s.isdigit():           # 整数校验：必须由数字组成（挡掉负数/小数/字母/空串）
+                print(f"{field_name}必须是整数，请重新输入。")
+                continue
+            val = int(s)
+            if not (min_val <= val <= max_val):   # 范围校验
+                print(f"{field_name}需在 {min_val}~{max_val} 之间，请重新输入。")
+                continue
+            return val
+
     # ---------- 公共查找（动手前思考 4：不要重复写三遍） ----------
 
     def find_student_by_name(self, name):
@@ -70,7 +75,7 @@ class StudentCMS:
     def add_student_interactive(self):
         """交互式录入一个新学员：逐项读取输入、校验后加入列表。"""
         name = input("请输入姓名：").strip()
-        age = read_int("请输入年龄：")
+        age = self.read_int("请输入年龄：", field_name="年龄")
         sex = input("请输入性别：").strip()
         phone = input("请输入联系方式：").strip()
         note = input("请输入描述信息：").strip()
@@ -87,7 +92,7 @@ class StudentCMS:
         if not stu:
             return False
         # 找到后直接修改该对象的属性（年龄走整数校验）
-        stu.age = read_int("请输入新年龄：")
+        stu.age = self.read_int("请输入新年龄：", field_name="年龄")
         stu.sex = input("请输入新性别：").strip()
         stu.phone = input("请输入新联系方式：").strip()
         stu.note = input("请输入新描述信息：").strip()
